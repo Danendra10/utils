@@ -45,7 +45,7 @@ uint8_t total_obs;
 
 /* Prototypes */
 
-ObstacleDetection ObstacleCheck(float theta, float theta_thresh, float dist, uint8_t _ignore_friend);
+ObstacleDetection ObstacleCheck(float theta, float theta_thresh, float dist);
 float Pythagoras(float _x1, float _y1, float _x2, float _y2);
 
 float RobotAngletoPoint(int16_t x, int16_t y);

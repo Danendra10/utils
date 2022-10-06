@@ -6,7 +6,7 @@ float Pythagoras(float _x1, float _y1, float _x2, float _y2) { return sqrt(pow(_
 float RobotAngletoPoint(int16_t x, int16_t y) { return atan2(y - pos_robot[1], x - pos_robot[0]) * RAD2DEG; }
 
 //-----------Obstacle Avoidance-----------//
-ObstacleDetection ObstacleCheck(float theta, float theta_thresh, float dist, uint8_t _ignore_friend)
+ObstacleDetection ObstacleCheck(float theta, float theta_thresh, float dist)
 {
     ObstacleDetection obs_data;
 
