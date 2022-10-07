@@ -6,6 +6,16 @@ extern "C"
 {
 #endif
 
+    float min_out;
+    float max_out;
+    float min_integral;
+    float max_integral;
+    float integral;
+    float last_error;
+    float proportional;
+    float derivative;
+    float output_speed;
+
     typedef struct PID_tag
     {
         float Kp;
@@ -19,34 +29,29 @@ extern "C"
         pid->Ki = Ki;
         pid->Kd = Kd;
     }
-    float PIDCalculate(PID_t *pid, float error, float dt)
+    float PIDCalculate(PID_t *pid, float error, float minmax)
     {
-        static float integral = 0;
-        static float last_error = 0;
-        float derivative = (error - last_error) / dt;
-        integral += error * dt;
+        min_out= min_integral = -minmax;
+        max_out = max_integral = minmax;
+
+        proportional = pid->Kp * error;
+        integral += pid->Ki * error;
+        derivative = pid->Kd * (error - last_error);
+
         last_error = error;
-        return pid->Kp * error + pid->Ki * integral + pid->Kd * derivative;
-    }
 
-    float GetProportional(PID_t *pid, float error)
-    {
-        return pid->Kp * error;
-    }
+        if (integral > max_integral)
+            integral = max_integral;
+        else if (integral < min_integral)
+            integral = min_integral;
 
-    float GetIntegral(PID_t *pid, float error, float dt)
-    {
-        static float integral = 0;
-        integral += error * dt;
-        return pid->Ki * integral;
-    }
+        output_speed = proportional + integral + derivative;
 
-    float GetDerivative(PID_t *pid, float error, float dt)
-    {
-        static float last_error = 0;
-        float derivative = (error - last_error) / dt;
-        last_error = error;
-        return pid->Kd * derivative;
+        if(output_speed > max_out)
+            output_speed = max_out;
+        else if(output_speed < min_out)
+            output_speed = min_out;        
+        return output_speed;
     }
 
 #ifdef _cplusplus

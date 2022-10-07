@@ -5,12 +5,36 @@ float Pythagoras(float _x1, float _y1, float _x2, float _y2) { return sqrt(pow(_
 
 float RobotAngletoPoint(int16_t x, int16_t y) { return atan2(y - pos_robot[1], x - pos_robot[0]) * RAD2DEG; }
 
+void SetLineSensor(uint8_t _line_sensor) { line_sensor = _line_sensor; }
+
+bool LeftLineSensorDetected()
+{
+    // printf("Line sensor: %d\n", line_sensor);
+    if ((line_sensor & 0x02) != 0x02)
+        return true;
+    else
+        return false;
+}
+bool RightLineSensorDetected()
+{
+    if ((line_sensor & 0x01) != 0x01)
+        return true;
+    else
+        return false;
+}
+
+void SetBallSensor(std::vector<uint8_t> _ball_sensor)
+{
+    ball_sensor[0] = _ball_sensor[0];
+    ball_sensor[1] = _ball_sensor[1];
+}
+
 //-----------Obstacle Avoidance-----------//
 ObstacleDetection ObstacleCheck(float theta, float theta_thresh, float dist)
 {
     ObstacleDetection obs_data;
 
-    printf("pos robot: %d %d %d\n", pos_robot[0], pos_robot[1], pos_robot[2]);
+    // printf("pos robot: %d %d %d\n", pos_robot[0], pos_robot[1], pos_robot[2]);
 
     static uint8_t obs_counter;
     static uint8_t obs_start;
@@ -25,7 +49,7 @@ ObstacleDetection ObstacleCheck(float theta, float theta_thresh, float dist)
 
     uint16_t init_index = (theta - theta_thresh) * 0.166666667;
     uint16_t final_index = (theta + theta_thresh) * 0.166666667;
-
+    printf("init index: %d final index: %d\n", init_index, final_index);
     while (init_index < 0)
         init_index += 60;
     while (init_index > 59)
@@ -34,9 +58,14 @@ ObstacleDetection ObstacleCheck(float theta, float theta_thresh, float dist)
         final_index += 60;
     while (final_index > 59)
         final_index -= 60;
+    printf(" ||||||||||| init index: %d final index: %d\n", init_index, final_index);
 
     std::vector<float> obs_dist;
     std::vector<uint8_t> obs_index;
+
+    // for(int i = 0; i < obs_on_field.size(); i++){
+    //     std::cout << "obs_on_field: " << (int)obs_on_field[i] << std::endl;
+    // }
 
     if (init_index > final_index)
     {
@@ -212,8 +241,8 @@ ObstacleDetection ObstacleCheck(float theta, float theta_thresh, float dist)
     /* Full Scan */
     else if (init_index == final_index)
     {
-        
     }
+    printf("obs:  %f %f\n", obs_data.pos_x, obs_data.pos_y);
 
     return obs_data;
 }
