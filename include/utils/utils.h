@@ -41,7 +41,7 @@ uint8_t line_sensor;
 
 uint8_t ball_sensor[2];
 
-std::vector<uint8_t> obs_on_field;
+std::vector<uint16_t> obs_on_field;
 uint8_t total_obs;
 
 //-----------------Obs------------------//
@@ -64,7 +64,7 @@ uint8_t total_obs;
 
 /* Prototypes */
 
-ObstacleDetection ObstacleCheck(float theta, float theta_thresh, float dist);
+ObstacleDetection ObstacleCheck(float theta, float theta_thresh, uint16_t dist);
 float Pythagoras(float _x1, float _y1, float _x2, float _y2);
 
 float RobotAngletoPoint(int16_t x, int16_t y);
@@ -74,5 +74,7 @@ void SetBallSensor(std::vector<uint8_t> _ball_sensor);
 
 bool LeftLineSensorDetected();
 bool RightLineSensorDetected();
+
+void DribbleAcceleration(int16_t *dribble, int16_t set_point, int16_t max_acceleration);
 
 #endif
