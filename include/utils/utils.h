@@ -101,12 +101,15 @@ enum robot_state
     status_preparation_throwin_away = 116,     // t | 0x74
 
     //---Keyboard Manual
-    status_keyboard_maju = 106,        // j | 0x6A
-    status_keyboard_kiri = 98,         // b | 0x62
-    status_keyboard_mundur = 110,      // n | 0x6E
-    status_keyboard_kanan = 109,       // m | 0x6D
-    status_keyboard_rotasi_kanan = 48, // 0 | 0x30
-    status_keyboard_rotasi_kiri = 57,  // 9 | 0x39
+    keyboard_forward = 106,        // j | 0x6A
+    keyboard_left = 98,         // b | 0x62
+    keyboard_backward = 110,      // n | 0x6E
+    keyboard_right = 109,       // m | 0x6D
+    keyboard_right_rotation = 48, // 0 | 0x30
+    keyboard_left_rotation = 57,  // 9 | 0x39
+
+    //---Start Cmds
+    game_kickoff_home = status_preparation_kickoff_home + 128,
 
 };
 
